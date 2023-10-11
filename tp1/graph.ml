@@ -1,6 +1,7 @@
 exception Cycle
 type mark = NotVisited | InProgress | Visited
 
+
 type 'a graph =
     { mutable g_nodes : 'a node list }
 and 'a node = {
