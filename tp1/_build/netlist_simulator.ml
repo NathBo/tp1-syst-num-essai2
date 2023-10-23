@@ -30,6 +30,10 @@ let xor a b =
   (a || b) && (not (a&&b))
 
 
+let string_of_bit b =
+  if b then "1" else "0"
+
+
 let compute_value valu = match valu with
   | VBit b -> b
   | _ -> failwith "Pas un bit mais un array"
@@ -62,6 +66,20 @@ let execute exp = match exp with
   | Ereg _ -> failwith "reg pas implémenté"
   | Erom _ -> failwith "ROM pas implémentée"
   | Eram _ -> failwith "RAM pas implémentée"
+
+
+let rec calc_eqs l = match l with
+    | [] -> ()
+    | (id,eq)::q -> Hashtbl.replace env id (execute eq);calc_eqs q
+
+
+let rec print_outputs l = match l with
+    | [] -> ()
+    | id::q -> let o = Hashtbl.find_opt env id in
+      (match o with
+        | None -> failwith ("la valeur "^id^" n'existe pas")
+        | Some x -> print_string ("=> "^id^" = "^(string_of_bit (compute_value(x)))^"\n"));
+      print_outputs q
     
 
 
@@ -73,7 +91,9 @@ let simulator program number_steps =
     print_int !i;
     print_string ":\n";
 
-  input_dans_env program.p_inputs;
+    input_dans_env program.p_inputs;
+    calc_eqs program.p_eqs;
+    print_outputs program.p_outputs;
 
     incr i;
   done
