@@ -5,10 +5,12 @@ let number_steps = ref (-1)
 
 let env = Hashtbl.create 256
 
+let envreg = Hashtbl.create 256
+
 
 let ajout_a_env id t = match t with
-  | TBit -> Hashtbl.add env id (VBit false)
-  | TBitArray n -> Hashtbl.add env id (VBitArray(Array.make n false))
+  | TBit -> Hashtbl.add env id (VBit false);Hashtbl.add envreg id (VBit false)
+  | TBitArray n -> Hashtbl.add env id (VBitArray(Array.make n false));Hashtbl.add envreg id (VBitArray(Array.make n false))
 
 let rec input_dans_env l = match l with
   | [] -> ()
@@ -26,6 +28,10 @@ let rec input_dans_env l = match l with
   input_dans_env q
 
 
+let refersh_envreg id _ =
+  Hashtbl.replace envreg id (Hashtbl.find env id)
+
+
 let xor a b =
   (a || b) && (not (a&&b))
 
@@ -39,7 +45,7 @@ let compute_value valu = match valu with
   | _ -> failwith "Pas un bit mais un array"
 
 let compute_array valu = match valu with
-  | VBit _ -> failwith "Pas un array mais un bit"
+  | VBit b -> Array.make 1 b
   | VBitArray a -> a
 
 
@@ -63,7 +69,7 @@ let execute exp = match exp with
   | Econcat (arg1,arg2) -> VBitArray(Array.append (compute_array(compute_arg arg1)) (compute_array(compute_arg arg2)))
   | Eslice (a,b,argu) -> VBitArray(Array.sub (compute_array (compute_arg argu)) a b)
   | Eselect (i,argu) -> VBit((compute_array (compute_arg argu)).(i))
-  | Ereg _ -> failwith "reg pas implémenté"
+  | Ereg id -> Hashtbl.find envreg id
   | Erom _ -> failwith "ROM pas implémentée"
   | Eram _ -> failwith "RAM pas implémentée"
 
@@ -91,6 +97,7 @@ let simulator program number_steps =
     print_int !i;
     print_string ":\n";
 
+    Env.iter refersh_envreg program.p_vars;
     input_dans_env program.p_inputs;
     calc_eqs program.p_eqs;
     print_outputs program.p_outputs;
