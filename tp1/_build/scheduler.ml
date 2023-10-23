@@ -19,7 +19,7 @@ let read_exp eq option =
     | Eselect (_,a) -> auxarg a acc 
     | Emux(a,b,c) -> auxarg a (auxarg b (auxarg c acc)) in
   let i,expr = eq in
-  aux expr []
+  aux expr [] 
   
 
 
