@@ -7,6 +7,23 @@ let env = Hashtbl.create 256
 
 let envreg = Hashtbl.create 256
 
+let memory = Hashtbl.create 256
+
+
+let bitarray_to_int v = match v with
+  | VBit b -> if b then 1 else 0
+  | VBitArray a -> let rep = ref 0 in
+    let power2 = ref 1 in
+    for i=0 to (Array.length a)-1 do
+      if(a.(i))then rep := !rep + !power2;
+      power2 := !power2*2 done;
+    !rep
+
+let rec puissance a n = match n with
+    | 0 -> 1
+    | _ -> a*puissance a (n-1)
+
+
 
 let ajout_a_env id t = match t with
   | TBit -> Hashtbl.add env id (VBit false);Hashtbl.add envreg id (VBit false)
@@ -82,7 +99,7 @@ let compute_arg argu = match argu with
 
 
 
-let execute exp = match exp with
+let execute exp id = match exp with
   | Earg argu -> compute_arg argu
   | Enot argu -> VBit (not(compute_value(compute_arg argu)))
   | Ebinop (op,argu1,argu2) ->  begin match op with
@@ -94,16 +111,25 @@ let execute exp = match exp with
     then compute_arg(argu3)
     else compute_arg(argu2)
   | Econcat (arg1,arg2) -> VBitArray(Array.append (compute_array(compute_arg arg1)) (compute_array(compute_arg arg2)))
-  | Eslice (a,b,argu) -> VBitArray(Array.sub (compute_array (compute_arg argu)) a (b+1))
+  | Eslice (a,b,argu) -> VBitArray(Array.sub (compute_array (compute_arg argu)) a (b-a+1))
   | Eselect (i,argu) -> VBit((compute_array (compute_arg argu)).(i))
   | Ereg id -> Hashtbl.find envreg id
-  | Erom _ -> failwith "ROM pas implémentée"
-  | Eram _ -> failwith "RAM pas implémentée"
+  | Erom (adrrs,wrds,addr) -> if Hashtbl.mem memory id
+    then (Hashtbl.find memory id).(bitarray_to_int (compute_arg addr))
+    else VBitArray(Array.make wrds false) 
+  | Eram (adrrs,wrds,read_addr,write_e,write_addr,data) -> let rep = if Hashtbl.mem memory id
+    then (Hashtbl.find memory id).(bitarray_to_int (compute_arg read_addr))
+    else VBitArray(Array.make wrds false) in
+    if compute_value(compute_arg write_e)
+    then ((if not (Hashtbl.mem memory id)
+      then Hashtbl.add memory id (Array.make (puissance 2 adrrs) (VBitArray(Array.make wrds false))));
+      (Hashtbl.find memory id).(bitarray_to_int (compute_arg write_addr)) <- compute_arg data);
+    rep
 
 
 let rec calc_eqs l = match l with
     | [] -> ()
-    | (id,eq)::q -> Hashtbl.replace env id (execute eq);calc_eqs q
+    | (id,eq)::q -> Hashtbl.replace env id (execute eq id);calc_eqs q
 
 
 let rec print_outputs l = match l with
@@ -111,8 +137,15 @@ let rec print_outputs l = match l with
     | id::q -> let o = Hashtbl.find_opt env id in
       (match o with
         | None -> failwith ("la valeur "^id^" n'existe pas")
-        | Some x -> print_string ("=> "^id^" = "^(string_of_bit (compute_value(x)))^"\n"));
-      print_outputs q
+        | Some x -> (match x with 
+          | VBit _ -> print_string ("=> "^id^" = "^(string_of_bit (compute_value(x)))^"\n")
+          | VBitArray a -> print_string ("=> "^id^" = ");
+            for i=0 to Array.length a -1  do
+              if a.(i)
+              then print_string "1"
+              else print_string "0" done;
+            print_string "\n");
+      print_outputs q)
     
 
 
