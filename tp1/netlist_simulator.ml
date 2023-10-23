@@ -67,7 +67,7 @@ let execute exp = match exp with
     then compute_arg(argu3)
     else compute_arg(argu2)
   | Econcat (arg1,arg2) -> VBitArray(Array.append (compute_array(compute_arg arg1)) (compute_array(compute_arg arg2)))
-  | Eslice (a,b,argu) -> VBitArray(Array.sub (compute_array (compute_arg argu)) a b)
+  | Eslice (a,b,argu) -> VBitArray(Array.sub (compute_array (compute_arg argu)) a (b+1))
   | Eselect (i,argu) -> VBit((compute_array (compute_arg argu)).(i))
   | Ereg id -> Hashtbl.find envreg id
   | Erom _ -> failwith "ROM pas implémentée"
