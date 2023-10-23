@@ -12,20 +12,47 @@ let ajout_a_env id t = match t with
   | TBit -> Hashtbl.add env id (VBit false);Hashtbl.add envreg id (VBit false)
   | TBitArray n -> Hashtbl.add env id (VBitArray(Array.make n false));Hashtbl.add envreg id (VBitArray(Array.make n false))
 
-let rec input_dans_env l = match l with
+let rec input_dans_env l p_vars = match l with
   | [] -> ()
-  | id::q -> print_string id;
-    print_string " ? ";
-    let s = ref (read_line ()) in
-    while !s <> "0" && !s<> "1" do
-      print_string "Wrong input.\n";
-      print_string id;
+  | id::q -> begin match Env.find id p_vars with
+    | TBit -> print_string id;
       print_string " ? ";
-      s := read_line () done;
-    if !s="0"
-    then Hashtbl.replace env id (VBit false)
-    else Hashtbl.replace env id (VBit true);
-  input_dans_env q
+      let s = ref (read_line ()) in
+      while !s <> "0" && !s<> "1" do
+        print_string "Wrong input.\n";
+        print_string id;
+        print_string " ? ";
+        s := read_line () done;
+      if !s="0"
+      then Hashtbl.replace env id (VBit false)
+      else Hashtbl.replace env id (VBit true);
+      input_dans_env q p_vars
+    | TBitArray n -> print_string id;
+      print_string " ? ";
+      let s = ref (read_line ()) in
+      let rep = Array.make n false in
+      let correct = ref (String.length !s = n) in
+      for i=0 to n-1 do
+        if !correct && !s.[i] = '0'
+        then rep.(i) <- false
+        else if !correct && !s.[i] = '1'
+        then rep.(i) <- true
+        else correct := false done;
+      while not !correct do
+        print_string "Wrong input.\n";
+        print_string id;
+        print_string " ? ";
+        let s = ref (read_line ()) in
+        correct := (String.length !s = n);
+        for i=0 to n-1 do
+          if !correct && !s.[i] = '0'
+          then rep.(i) <- false
+          else if !correct && !s.[i] = '1'
+          then rep.(i) <- true
+          else correct := false done;done;
+      Hashtbl.replace env id (VBitArray rep);
+      input_dans_env q p_vars end
+
 
 
 let refersh_envreg id _ =
@@ -67,7 +94,7 @@ let execute exp = match exp with
     then compute_arg(argu3)
     else compute_arg(argu2)
   | Econcat (arg1,arg2) -> VBitArray(Array.append (compute_array(compute_arg arg1)) (compute_array(compute_arg arg2)))
-  | Eslice (a,b,argu) -> VBitArray(Array.sub (compute_array (compute_arg argu)) a b)
+  | Eslice (a,b,argu) -> VBitArray(Array.sub (compute_array (compute_arg argu)) a (b+1))
   | Eselect (i,argu) -> VBit((compute_array (compute_arg argu)).(i))
   | Ereg id -> Hashtbl.find envreg id
   | Erom _ -> failwith "ROM pas implémentée"
@@ -98,7 +125,7 @@ let simulator program number_steps =
     print_string ":\n";
 
     Env.iter refersh_envreg program.p_vars;
-    input_dans_env program.p_inputs;
+    input_dans_env program.p_inputs program.p_vars;
     calc_eqs program.p_eqs;
     print_outputs program.p_outputs;
 

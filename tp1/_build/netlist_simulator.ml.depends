@@ -1,1 +1,1 @@
-netlist_simulator.ml: Arg Array Env Format Hashtbl Netlist Netlist_ast Scheduler
+netlist_simulator.ml: Arg Array Env Format Hashtbl Netlist Netlist_ast Scheduler String
