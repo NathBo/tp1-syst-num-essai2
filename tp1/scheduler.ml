@@ -12,8 +12,8 @@ let read_exp eq option =
     | Ereg i -> if(option)then i::acc else acc
     | Ebinop (_,a,b) -> auxarg a (auxarg b acc)
     | Erom (_,_,a) -> auxarg a acc
-    | Eram (_,_,a,Aconst (VBit true),b,c) -> auxarg a (auxarg b (auxarg c acc))
-    | Eram (_,_,a,_,b,c) -> if(option)then auxarg a (auxarg b (auxarg c acc)) else acc
+    | Eram (_,_,a,b,c,d) when option-> auxarg a (auxarg b (auxarg c (auxarg d acc)))
+    | Eram (_,_,a,_,_,_) -> auxarg a acc
     | Econcat (a,b) -> auxarg a (auxarg b acc)
     | Eslice (_,_,a) -> auxarg a acc
     | Eselect (_,a) -> auxarg a acc 

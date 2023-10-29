@@ -9,6 +9,8 @@ let envreg = Hashtbl.create 256
 
 let memory = Hashtbl.create 256
 
+let rams = ref []
+
 
 let bitarray_to_int v = match v with
   | VBit b -> if b then 1 else 0
@@ -120,10 +122,7 @@ let execute exp id = match exp with
   | Eram (adrrs,wrds,read_addr,write_e,write_addr,data) -> let rep = if Hashtbl.mem memory id
     then (Hashtbl.find memory id).(bitarray_to_int (compute_arg read_addr))
     else VBitArray(Array.make wrds false) in
-    if compute_value(compute_arg write_e)
-    then ((if not (Hashtbl.mem memory id)
-      then Hashtbl.add memory id (Array.make (puissance 2 adrrs) (VBitArray(Array.make wrds false))));
-      (Hashtbl.find memory id).(bitarray_to_int (compute_arg write_addr)) <- compute_arg data);
+    rams := (id,exp):: (!rams);
     rep
 
 
@@ -148,6 +147,16 @@ let rec print_outputs l = match l with
       print_outputs q)
     
 
+let write_ram eq = match eq with
+    | (id,Eram (adrrs,wrds,_,write_e,write_addr,data)) ->
+      if compute_value(compute_arg write_e)
+        then ((if not (Hashtbl.mem memory id)
+          then Hashtbl.add memory id (Array.make (puissance 2 adrrs) (VBitArray(Array.make wrds false))));
+          (Hashtbl.find memory id).(bitarray_to_int (compute_arg write_addr)) <- compute_arg data)
+    | _ -> failwith "devrait etre un Eram"
+    
+
+
 
 let simulator program number_steps =
   Env.iter ajout_a_env program.p_vars;
@@ -157,9 +166,11 @@ let simulator program number_steps =
     print_int !i;
     print_string ":\n";
 
+    rams := [];
     Env.iter refersh_envreg program.p_vars;
     input_dans_env program.p_inputs program.p_vars;
     calc_eqs program.p_eqs;
+    List.iter write_ram !rams;
     print_outputs program.p_outputs;
 
     incr i;
