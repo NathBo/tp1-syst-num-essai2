@@ -1,4 +1,0 @@
-(lang dune 3.10)
-(name lab1)
-(sections (lib .))
-(files (lib (META dune-package)))

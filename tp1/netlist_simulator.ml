@@ -16,7 +16,7 @@ let bitarray_to_int v = match v with
   | VBit b -> if b then 1 else 0
   | VBitArray a -> let rep = ref 0 in
     let power2 = ref 1 in
-    for i=0 to (Array.length a)-1 do
+    for i=(Array.length a)-1 downto 0 do
       if(a.(i))then rep := !rep + !power2;
       power2 := !power2*2 done;
     !rep
@@ -100,6 +100,14 @@ let compute_arg argu = match argu with
   | Aconst valu -> valu
 
 
+let bit_of_char c =
+  if c = '0'
+    then false
+else if c = '1'
+  then true
+else failwith "Invalid character for a bit (not 0 or 1)"
+
+
 
 let execute exp id = match exp with
   | Earg argu -> compute_arg argu
@@ -118,7 +126,21 @@ let execute exp id = match exp with
   | Ereg id -> Hashtbl.find envreg id
   | Erom (adrrs,wrds,addr) -> if Hashtbl.mem memory id
     then (Hashtbl.find memory id).(bitarray_to_int (compute_arg addr))
-    else VBitArray(Array.make wrds false) 
+    else begin
+      let ic = open_in ("data/"^id^".data") in
+      let rep = (Array.make (puissance 2 adrrs) (VBitArray(Array.make wrds false))) in
+      for i=0 to puissance 2 adrrs -1 do
+        let line = input_line ic in
+        let tabl = Array.make wrds false in
+        for j=0 to wrds-1 do
+          tabl.(j) <- bit_of_char line.[j]
+        done;
+        rep.(i) <- VBitArray(tabl)
+      done;
+      Hashtbl.add memory id rep;
+      (Hashtbl.find memory id).(bitarray_to_int (compute_arg addr))
+
+    end 
   | Eram (adrrs,wrds,read_addr,write_e,write_addr,data) -> let rep = if Hashtbl.mem memory id
     then (Hashtbl.find memory id).(bitarray_to_int (compute_arg read_addr))
     else VBitArray(Array.make wrds false) in

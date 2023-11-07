@@ -1,0 +1,7 @@
+INPUT addr
+OUTPUT rom
+VAR
+  rom:4,addr:2
+IN
+rom = ROM 2 4 addr
+

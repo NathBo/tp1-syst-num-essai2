@@ -1,6 +1,0 @@
-# dune build
-# OCAMLPARAM: unset
-# Workspace root: /home/nathan/tp1-syst-num-essai2/tp1
-$ /usr/bin/nproc > /tmp/dune3348e7.output 2> /dev/null
-# Auto-detected concurrency: 6
-# disable binary cache

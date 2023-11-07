@@ -1,4 +1,0 @@
-lib: [
-  "_build/install/default/lib/lab1/META"
-  "_build/install/default/lib/lab1/dune-package"
-]
