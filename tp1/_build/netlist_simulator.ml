@@ -16,7 +16,7 @@ let bitarray_to_int v = match v with
   | VBit b -> if b then 1 else 0
   | VBitArray a -> let rep = ref 0 in
     let power2 = ref 1 in
-    for i=(Array.length a)-1 downto 0 do
+    for i=0 to (Array.length a)-1 do
       if(a.(i))then rep := !rep + !power2;
       power2 := !power2*2 done;
     !rep
@@ -127,10 +127,10 @@ let execute exp id = match exp with
   | Erom (adrrs,wrds,addr) -> if Hashtbl.mem memory id
     then (Hashtbl.find memory id).(bitarray_to_int (compute_arg addr))
     else begin
-      let ic = open_in ("data/"^id^".data") in
+      let ic = open_in ("data/code_cpu.txt") in
       let rep = (Array.make (puissance 2 adrrs) (VBitArray(Array.make wrds false))) in
       for i=0 to puissance 2 adrrs -1 do
-        let line = input_line ic in
+        let line = try input_line ic with End_of_file -> "00000000000000000000000000000000" in
         let tabl = Array.make wrds false in
         for j=0 to wrds-1 do
           tabl.(j) <- bit_of_char line.[j]
