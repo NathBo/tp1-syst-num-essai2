@@ -3,54 +3,57 @@ open Graph
 
 exception Combinational_cycle
 
-let read_exp eq option =
-  let auxarg a acc = match a with
-    | Avar i -> i::acc
-    | _ -> acc in
-  let rec aux eq  acc = match eq with
-    | Earg a | Enot a -> auxarg a acc
-    | Ereg i -> if(option)then i::acc else acc
-    | Ebinop (_,a,b) -> auxarg a (auxarg b acc)
-    | Erom (_,_,a) -> auxarg a acc
-    | Eram (_,_,a,b,c,d) when option-> auxarg a (auxarg b (auxarg c (auxarg d acc)))
-    | Eram (_,_,a,_,_,_) -> auxarg a acc
-    | Econcat (a,b) -> auxarg a (auxarg b acc)
-    | Eslice (_,_,a) -> auxarg a acc
-    | Eselect (_,a) -> auxarg a acc 
-    | Emux(a,b,c) -> auxarg a (auxarg b (auxarg c acc)) in
-  let i,expr = eq in
-  aux expr [] 
-  
+let read_exp (ident,exp) =
+	let lst_from_arg = function
+		| Avar i -> [i]
+		| Aconst _ -> []
+	in
+	match exp with
+		| Earg (a) -> lst_from_arg a
+		| Ereg _ -> []
+		| Enot a -> lst_from_arg a
+		| Ebinop (_,a,b) -> (lst_from_arg a)@(lst_from_arg b)   (* size of the lists <= 1 *)
+		| Emux (a,b,c) -> (lst_from_arg a)@(lst_from_arg b)@(lst_from_arg c)
+		| Erom (_,_,a) -> lst_from_arg a
+		| Eram (_,_,a,_,_,_) -> (lst_from_arg a) (* writing to the ram will take place at the end of the iteration and will therefore not cause a cycle *)
+		| Econcat (a,b) -> (lst_from_arg a)@(lst_from_arg b)
+		| Eslice (_,_,a) -> lst_from_arg a
+		| Eselect (_,a) -> lst_from_arg a
 
 
+let schedule p =
+	let g = mk_graph() in
+	List.iter (fun (ident,exp) -> add_node g ident) p.p_eqs;
+	
+	let rec is_not_input v = function
+		| [] -> true
+		| i::_ when i=v -> false
+		| _::lstInput -> is_not_input v lstInput
+	in
+	let rec addLst nodeA = function
+		| [] -> ()
+		| nodeB::queue -> (if is_not_input nodeB p.p_inputs then add_edge g nodeB nodeA; addLst nodeA queue)
+	in
+		
+	List.iter 
+		(fun (ident,exp) -> addLst ident (read_exp (ident,exp)))
+		p.p_eqs;
+	
+	try begin
+		let item_order = topological g in
+		
+		let rec find_equa item = function
+			| [] -> failwith "not found"
+			| e::_ when fst e = item -> e
+			| _::q -> find_equa item q
+		in
+		let rec build_p_eqs = function
+			| [] -> []
+			| item::lst -> (find_equa item p.p_eqs)::(build_p_eqs lst)
+		in
+		{p_eqs = build_p_eqs item_order; p_inputs = p.p_inputs; p_outputs = p.p_outputs; p_vars = p.p_vars}
+	end with
+		| Cycle -> raise Combinational_cycle
 
-let program_to_graph p =
-  let g = mk_graph() in
-  let rec add_exp l = match l with
-    | [] -> ()
-    | eq::q -> (add_node_list g (read_exp eq true);add_exp q) in
-  add_exp p.p_eqs;
-  add_node_list g p.p_inputs;
-  add_node_list g p.p_outputs;
-  let rec add_eq l = match l with
-    | [] -> ()
-    | (i,expr)::q -> (add_edge_list g i (read_exp (i,expr) false);add_eq q) in
-  add_eq p.p_eqs;g
-
-
-
-let rec variables_to_eqs p_eqs l = match l with
-  | [] -> []
-  | v::q -> if(List.exists (fun (a,b) -> a = v) p_eqs)then List.find (fun (a,b) -> a = v) p_eqs :: variables_to_eqs p_eqs q else variables_to_eqs p_eqs q
-
-
-let schedule p = 
-  let g = program_to_graph p in
-  if (has_cycle g)then raise Combinational_cycle;
-  let order = topological g in
-  let eqlist = variables_to_eqs p.p_eqs order in {p_eqs = eqlist; p_inputs = p.p_inputs; p_outputs = p.p_outputs; p_vars = p.p_vars}
-
-
-
-
+	
 

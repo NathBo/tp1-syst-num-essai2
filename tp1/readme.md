@@ -9,7 +9,7 @@ L'option -n <steps> permet de choisir le nombre de steps que fera le simulateur
 
 Fonctionnement de rom :
 L'instruction o = ROM addrs wrds addr va lire la ligne numéro addr du fichier o.data dans le dossier data
-
+(Un fichier de test rom.net a été rajouté)
 
 
 
