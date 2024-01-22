@@ -5,8 +5,4 @@
  (depends ocaml dune)
  (allow_empty))
  
-<<<<<<< HEAD
 (using menhir 2.1)
-=======
-(using menhir 2.1)
->>>>>>> 97d6422bea6e01526998d304bd6ea01100c74def

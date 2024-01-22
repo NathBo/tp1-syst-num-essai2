@@ -1,0 +1,192 @@
+# dune build
+# OCAMLPARAM: unset
+# Shared cache: disabled
+# Workspace root: /home/nathan/tp1-syst-num-essai2/tp1
+# Auto-detected concurrency: 6
+$ /usr/bin/ocamlc.opt -config > /tmp/dune_16a1cd_output
+# Dune context:
+#  { name = "default"
+#  ; kind = "default"
+#  ; profile = Dev
+#  ; merlin = true
+#  ; for_host = None
+#  ; fdo_target_exe = None
+#  ; build_dir = In_build_dir "default"
+#  ; ocaml_bin = External "/usr/bin"
+#  ; ocaml = Ok External "/usr/bin/ocaml"
+#  ; ocamlc = External "/usr/bin/ocamlc.opt"
+#  ; ocamlopt = Ok External "/usr/bin/ocamlopt.opt"
+#  ; ocamldep = Ok External "/usr/bin/ocamldep.opt"
+#  ; ocamlmklib = Ok External "/usr/bin/ocamlmklib.opt"
+#  ; installed_env =
+#      map
+#        { "INSIDE_DUNE" :
+#            "/home/nathan/tp1-syst-num-essai2/tp1/_build/default"
+#        ; "OCAML_COLOR" : "always"
+#        ; "OPAMCOLOR" : "always"
+#        }
+#  ; findlib_paths = [ External "/home/nathan/.opam/default/lib" ]
+#  ; ocaml_config =
+#      { version = "4.13.1"
+#      ; standard_library_default = "/usr/lib/ocaml"
+#      ; standard_library = "/usr/lib/ocaml"
+#      ; standard_runtime = "the_standard_runtime_variable_was_deleted"
+#      ; ccomp_type = "cc"
+#      ; c_compiler = "x86_64-linux-gnu-gcc"
+#      ; ocamlc_cflags =
+#          [ "-O2"
+#          ; "-fno-strict-aliasing"
+#          ; "-fwrapv"
+#          ; "-pthread"
+#          ; "-fPIC"
+#          ; "-g"
+#          ; "-O2"
+#          ; "-ffile-prefix-map=/build/ocaml-SC7b9w/ocaml-4.13.1=."
+#          ; "-fstack-protector-strong"
+#          ; "-Wformat"
+#          ; "-Werror=format-security"
+#          ]
+#      ; ocamlc_cppflags =
+#          [ "-D_FILE_OFFSET_BITS=64"; "-Wdate-time"; "-D_FORTIFY_SOURCE=2" ]
+#      ; ocamlopt_cflags =
+#          [ "-O2"
+#          ; "-fno-strict-aliasing"
+#          ; "-fwrapv"
+#          ; "-pthread"
+#          ; "-fPIC"
+#          ; "-g"
+#          ; "-O2"
+#          ; "-ffile-prefix-map=/build/ocaml-SC7b9w/ocaml-4.13.1=."
+#          ; "-fstack-protector-strong"
+#          ; "-Wformat"
+#          ; "-Werror=format-security"
+#          ]
+#      ; ocamlopt_cppflags =
+#          [ "-D_FILE_OFFSET_BITS=64"; "-Wdate-time"; "-D_FORTIFY_SOURCE=2" ]
+#      ; bytecomp_c_compiler =
+#          [ "x86_64-linux-gnu-gcc"
+#          ; "-O2"
+#          ; "-fno-strict-aliasing"
+#          ; "-fwrapv"
+#          ; "-pthread"
+#          ; "-fPIC"
+#          ; "-g"
+#          ; "-O2"
+#          ; "-ffile-prefix-map=/build/ocaml-SC7b9w/ocaml-4.13.1=."
+#          ; "-fstack-protector-strong"
+#          ; "-Wformat"
+#          ; "-Werror=format-security"
+#          ; "-D_FILE_OFFSET_BITS=64"
+#          ; "-Wdate-time"
+#          ; "-D_FORTIFY_SOURCE=2"
+#          ]
+#      ; bytecomp_c_libraries = [ "-lm"; "-lpthread" ]
+#      ; native_c_compiler =
+#          [ "x86_64-linux-gnu-gcc"
+#          ; "-O2"
+#          ; "-fno-strict-aliasing"
+#          ; "-fwrapv"
+#          ; "-pthread"
+#          ; "-fPIC"
+#          ; "-g"
+#          ; "-O2"
+#          ; "-ffile-prefix-map=/build/ocaml-SC7b9w/ocaml-4.13.1=."
+#          ; "-fstack-protector-strong"
+#          ; "-Wformat"
+#          ; "-Werror=format-security"
+#          ; "-D_FILE_OFFSET_BITS=64"
+#          ; "-Wdate-time"
+#          ; "-D_FORTIFY_SOURCE=2"
+#          ]
+#      ; native_c_libraries = [ "-lm" ]
+#      ; native_pack_linker = [ "x86_64-linux-gnu-ld"; "-r"; "-o" ]
+#      ; cc_profile = []
+#      ; architecture = "amd64"
+#      ; model = "default"
+#      ; int_size = 63
+#      ; word_size = 64
+#      ; system = "linux"
+#      ; asm = [ "x86_64-linux-gnu-as" ]
+#      ; asm_cfi_supported = true
+#      ; with_frame_pointers = false
+#      ; ext_exe = ""
+#      ; ext_obj = ".o"
+#      ; ext_asm = ".s"
+#      ; ext_lib = ".a"
+#      ; ext_dll = ".so"
+#      ; os_type = "Unix"
+#      ; default_executable_name = "a.out"
+#      ; systhread_supported = true
+#      ; host = "x86_64-pc-linux-gnu"
+#      ; target = "x86_64-pc-linux-gnu"
+#      ; profiling = false
+#      ; flambda = false
+#      ; spacetime = false
+#      ; safe_string = true
+#      ; exec_magic_number = "Caml1999X030"
+#      ; cmi_magic_number = "Caml1999I030"
+#      ; cmo_magic_number = "Caml1999O030"
+#      ; cma_magic_number = "Caml1999A030"
+#      ; cmx_magic_number = "Caml1999Y030"
+#      ; cmxa_magic_number = "Caml1999Z030"
+#      ; ast_impl_magic_number = "Caml1999M030"
+#      ; ast_intf_magic_number = "Caml1999N030"
+#      ; cmxs_magic_number = "Caml1999D030"
+#      ; cmt_magic_number = "Caml1999T030"
+#      ; natdynlink_supported = true
+#      ; supports_shared_libraries = true
+#      ; windows_unicode = false
+#      }
+#  ; instrument_with = []
+#  }
+$ (cd _build/.sandbox/6296c82ce975641ffe7a3588d403c310/default && /home/nathan/.opam/default/bin/menhir netlist_parser.mly --base netlist_parser --infer-write-query netlist_parser__mock.ml.mock)
+$ (cd _build/default && /usr/bin/ocamllex -q -o netlist_lexer.ml netlist_lexer.mll)
+$ (cd _build/default && /usr/bin/ocamldep.opt -modules -impl scheduler_test.ml) > _build/default/.graph_test.eobjs/dune__exe__Scheduler_test.impl.d
+$ (cd _build/default && /usr/bin/ocamldep.opt -modules -impl graph_test.ml) > _build/default/.graph_test.eobjs/dune__exe__Graph_test.impl.d
+$ (cd _build/default && /usr/bin/ocamldep.opt -modules -impl netlist_simulator.ml) > _build/default/.graph_test.eobjs/dune__exe__Netlist_simulator.impl.d
+$ (cd _build/default && /usr/bin/ocamldep.opt -modules -impl netlist.ml) > _build/default/.graph_test.eobjs/dune__exe__Netlist.impl.d
+$ (cd _build/default && /usr/bin/ocamldep.opt -modules -impl netlist_printer.ml) > _build/default/.graph_test.eobjs/dune__exe__Netlist_printer.impl.d
+$ (cd _build/default && /usr/bin/ocamldep.opt -modules -impl graph.ml) > _build/default/.graph_test.eobjs/dune__exe__Graph.impl.d
+$ (cd _build/default && /usr/bin/ocamldep.opt -modules -impl scheduler.ml) > _build/default/.graph_test.eobjs/dune__exe__Scheduler.impl.d
+$ (cd _build/default && /usr/bin/ocamldep.opt -modules -impl netlist_parser__mock.ml.mock) > _build/default/.graph_test.eobjs/netlist_parser__mock.impl.d
+$ (cd _build/default && /usr/bin/ocamldep.opt -modules -impl netlist_ast.ml) > _build/default/.graph_test.eobjs/dune__exe__Netlist_ast.impl.d
+$ (cd _build/default && /usr/bin/ocamldep.opt -modules -impl netlist_lexer.ml) > _build/default/.graph_test.eobjs/dune__exe__Netlist_lexer.impl.d
+$ (cd _build/default && /usr/bin/ocamlc.opt -w @1..3@5..28@30..39@43@46..47@49..57@61..62@67@69-40 -strict-sequence -strict-formats -short-paths -keep-locs -w -49 -nopervasives -nostdlib -g -bin-annot -I .graph_test.eobjs/byte -no-alias-deps -opaque -o .graph_test.eobjs/byte/dune__exe.cmo -c -impl .graph_test.eobjs/dune__exe.ml-gen)
+$ (cd _build/default && /usr/bin/ocamldep.opt -modules -intf graph_test.mli) > _build/default/.graph_test.eobjs/dune__exe__Graph_test.intf.d
+$ (cd _build/default && /usr/bin/ocamlopt.opt -w @1..3@5..28@30..39@43@46..47@49..57@61..62@67@69-40 -strict-sequence -strict-formats -short-paths -keep-locs -w -49 -nopervasives -nostdlib -g -I .graph_test.eobjs/byte -I .graph_test.eobjs/native -intf-suffix .ml-gen -no-alias-deps -opaque -o .graph_test.eobjs/native/dune__exe.cmx -c -impl .graph_test.eobjs/dune__exe.ml-gen)
+$ (cd _build/default && /usr/bin/ocamlc.opt -g -bin-annot -I .graph_test.eobjs/byte -no-alias-deps -opaque -open Dune__exe -o .graph_test.eobjs/byte/dune__exe__Graph_test.cmi -c -intf graph_test.mli)
+$ (cd _build/default && /usr/bin/ocamlc.opt -g -bin-annot -I .graph_test.eobjs/byte -no-alias-deps -opaque -open Dune__exe -o .graph_test.eobjs/byte/dune__exe__Netlist_ast.cmo -c -impl netlist_ast.ml)
+$ (cd _build/default && /usr/bin/ocamlc.opt -g -bin-annot -I .graph_test.eobjs/byte -no-alias-deps -opaque -open Dune__exe -o .graph_test.eobjs/byte/dune__exe__Graph.cmo -c -impl graph.ml)
+$ (cd _build/default && /usr/bin/ocamlc.opt -g -bin-annot -I .graph_test.eobjs/byte -intf-suffix .ml -no-alias-deps -opaque -open Dune__exe -o .graph_test.eobjs/byte/dune__exe__Graph_test.cmo -c -impl graph_test.ml)
+$ (cd _build/default && /usr/bin/ocamlopt.opt -g -I .graph_test.eobjs/byte -I .graph_test.eobjs/native -intf-suffix .ml -no-alias-deps -opaque -open Dune__exe -o .graph_test.eobjs/native/dune__exe__Graph.cmx -c -impl graph.ml)
+$ (cd _build/default && /usr/bin/ocamlopt.opt -g -I .graph_test.eobjs/byte -I .graph_test.eobjs/native -intf-suffix .ml -no-alias-deps -opaque -open Dune__exe -o .graph_test.eobjs/native/dune__exe__Graph_test.cmx -c -impl graph_test.ml)
+$ (cd _build/.sandbox/370ccf9bb92bf8f3cf295a374f687fde/default && /usr/bin/ocamlc.opt -g -I .graph_test.eobjs/byte -open Dune__exe -short-paths -i -impl netlist_parser__mock.ml.mock) > _build/.sandbox/370ccf9bb92bf8f3cf295a374f687fde/default/netlist_parser__mock.mli.inferred
+$ (cd _build/.sandbox/75eb18e5023ce0f18c8b7a2a46be5ddf/default && /home/nathan/.opam/default/bin/menhir netlist_parser.mly --base netlist_parser --infer-read-reply netlist_parser__mock.mli.inferred)
+$ (cd _build/default && /usr/bin/ocamldep.opt -modules -intf netlist_parser.mli) > _build/default/.graph_test.eobjs/dune__exe__Netlist_parser.intf.d
+$ (cd _build/default && /usr/bin/ocamldep.opt -modules -impl netlist_parser.ml) > _build/default/.graph_test.eobjs/dune__exe__Netlist_parser.impl.d
+$ (cd _build/default && /usr/bin/ocamlc.opt -g -o graph_test.bc /usr/lib/ocaml/unix.cma .graph_test.eobjs/byte/dune__exe.cmo .graph_test.eobjs/byte/dune__exe__Graph.cmo .graph_test.eobjs/byte/dune__exe__Graph_test.cmo)
+$ (cd _build/default && /usr/bin/ocamlc.opt -g -bin-annot -I .graph_test.eobjs/byte -no-alias-deps -opaque -open Dune__exe -o .graph_test.eobjs/byte/dune__exe__Scheduler.cmo -c -impl scheduler.ml)
+$ (cd _build/default && /usr/bin/ocamldep.opt -modules -intf scheduler_test.mli) > _build/default/.graph_test.eobjs/dune__exe__Scheduler_test.intf.d
+$ (cd _build/default && /usr/bin/ocamlc.opt -g -bin-annot -I .graph_test.eobjs/byte -no-alias-deps -opaque -open Dune__exe -o .graph_test.eobjs/byte/dune__exe__Netlist_parser.cmi -c -intf netlist_parser.mli)
+$ (cd _build/default && /usr/bin/ocamldep.opt -modules -intf netlist_simulator.mli) > _build/default/.graph_test.eobjs/dune__exe__Netlist_simulator.intf.d
+$ (cd _build/default && /usr/bin/ocamlopt.opt -g -I .graph_test.eobjs/byte -I .graph_test.eobjs/native -intf-suffix .ml -no-alias-deps -opaque -open Dune__exe -o .graph_test.eobjs/native/dune__exe__Netlist_ast.cmx -c -impl netlist_ast.ml)
+$ (cd _build/default && /usr/bin/ocamlc.opt -g -bin-annot -I .graph_test.eobjs/byte -no-alias-deps -opaque -open Dune__exe -o .graph_test.eobjs/byte/dune__exe__Scheduler_test.cmi -c -intf scheduler_test.mli)
+$ (cd _build/default && /usr/bin/ocamlc.opt -g -bin-annot -I .graph_test.eobjs/byte -no-alias-deps -opaque -open Dune__exe -o .graph_test.eobjs/byte/dune__exe__Netlist_printer.cmo -c -impl netlist_printer.ml)
+$ (cd _build/default && /usr/bin/ocamlc.opt -g -bin-annot -I .graph_test.eobjs/byte -no-alias-deps -opaque -open Dune__exe -o .graph_test.eobjs/byte/dune__exe__Netlist_lexer.cmo -c -impl netlist_lexer.ml)
+$ (cd _build/default && /usr/bin/ocamlc.opt -g -bin-annot -I .graph_test.eobjs/byte -no-alias-deps -opaque -open Dune__exe -o .graph_test.eobjs/byte/dune__exe__Netlist_simulator.cmi -c -intf netlist_simulator.mli)
+$ (cd _build/default && /usr/bin/ocamlopt.opt -g -I .graph_test.eobjs/byte -I .graph_test.eobjs/native -intf-suffix .ml -no-alias-deps -opaque -open Dune__exe -o .graph_test.eobjs/native/dune__exe__Scheduler.cmx -c -impl scheduler.ml)
+$ (cd _build/default && /usr/bin/ocamlc.opt -g -bin-annot -I .graph_test.eobjs/byte -no-alias-deps -opaque -open Dune__exe -o .graph_test.eobjs/byte/dune__exe__Netlist.cmo -c -impl netlist.ml)
+$ (cd _build/default && /usr/bin/ocamlopt.opt -g -I .graph_test.eobjs/byte -I .graph_test.eobjs/native -intf-suffix .ml -no-alias-deps -opaque -open Dune__exe -o .graph_test.eobjs/native/dune__exe__Netlist_lexer.cmx -c -impl netlist_lexer.ml)
+$ (cd _build/default && /usr/bin/ocamlc.opt -g -bin-annot -I .graph_test.eobjs/byte -intf-suffix .ml -no-alias-deps -opaque -open Dune__exe -o .graph_test.eobjs/byte/dune__exe__Scheduler_test.cmo -c -impl scheduler_test.ml)
+$ (cd _build/default && /usr/bin/ocamlopt.opt -g -I .graph_test.eobjs/byte -I .graph_test.eobjs/native -intf-suffix .ml -no-alias-deps -opaque -open Dune__exe -o .graph_test.eobjs/native/dune__exe__Netlist_printer.cmx -c -impl netlist_printer.ml)
+$ (cd _build/default && /usr/bin/ocamlopt.opt -g -I .graph_test.eobjs/byte -I .graph_test.eobjs/native -intf-suffix .ml -no-alias-deps -opaque -open Dune__exe -o .graph_test.eobjs/native/dune__exe__Netlist.cmx -c -impl netlist.ml)
+$ (cd _build/default && /usr/bin/ocamlopt.opt -g -I .graph_test.eobjs/byte -I .graph_test.eobjs/native -intf-suffix .ml -no-alias-deps -opaque -open Dune__exe -o .graph_test.eobjs/native/dune__exe__Scheduler_test.cmx -c -impl scheduler_test.ml)
+$ (cd _build/default && /usr/bin/ocamlopt.opt -g -o graph_test.exe /usr/lib/ocaml/unix.cmxa -I /usr/lib/ocaml .graph_test.eobjs/native/dune__exe.cmx .graph_test.eobjs/native/dune__exe__Graph.cmx .graph_test.eobjs/native/dune__exe__Graph_test.cmx)
+$ (cd _build/default && /usr/bin/ocamlc.opt -g -bin-annot -I .graph_test.eobjs/byte -intf-suffix .ml -no-alias-deps -opaque -open Dune__exe -o .graph_test.eobjs/byte/dune__exe__Netlist_simulator.cmo -c -impl netlist_simulator.ml)
+$ (cd _build/default && /usr/bin/ocamlopt.opt -g -I .graph_test.eobjs/byte -I .graph_test.eobjs/native -intf-suffix .ml -no-alias-deps -opaque -open Dune__exe -o .graph_test.eobjs/native/dune__exe__Netlist_simulator.cmx -c -impl netlist_simulator.ml)
+$ (cd _build/default && /usr/bin/ocamlopt.opt -g -I .graph_test.eobjs/byte -I .graph_test.eobjs/native -intf-suffix .ml -no-alias-deps -opaque -open Dune__exe -o .graph_test.eobjs/native/dune__exe__Netlist_parser.cmx -c -impl netlist_parser.ml)
+$ (cd _build/default && /usr/bin/ocamlc.opt -g -bin-annot -I .graph_test.eobjs/byte -intf-suffix .ml -no-alias-deps -opaque -open Dune__exe -o .graph_test.eobjs/byte/dune__exe__Netlist_parser.cmo -c -impl netlist_parser.ml)
+$ (cd _build/default && /usr/bin/ocamlc.opt -g -o scheduler_test.bc /usr/lib/ocaml/unix.cma .graph_test.eobjs/byte/dune__exe.cmo .graph_test.eobjs/byte/dune__exe__Graph.cmo .graph_test.eobjs/byte/dune__exe__Netlist_ast.cmo .graph_test.eobjs/byte/dune__exe__Netlist_parser.cmo .graph_test.eobjs/byte/dune__exe__Netlist_lexer.cmo .graph_test.eobjs/byte/dune__exe__Netlist_printer.cmo .graph_test.eobjs/byte/dune__exe__Netlist.cmo .graph_test.eobjs/byte/dune__exe__Scheduler.cmo .graph_test.eobjs/byte/dune__exe__Scheduler_test.cmo)
+$ (cd _build/default && /usr/bin/ocamlc.opt -g -o netlist_simulator.bc /usr/lib/ocaml/unix.cma .graph_test.eobjs/byte/dune__exe.cmo .graph_test.eobjs/byte/dune__exe__Graph.cmo .graph_test.eobjs/byte/dune__exe__Netlist_ast.cmo .graph_test.eobjs/byte/dune__exe__Netlist_parser.cmo .graph_test.eobjs/byte/dune__exe__Netlist_lexer.cmo .graph_test.eobjs/byte/dune__exe__Netlist_printer.cmo .graph_test.eobjs/byte/dune__exe__Netlist.cmo .graph_test.eobjs/byte/dune__exe__Scheduler.cmo .graph_test.eobjs/byte/dune__exe__Netlist_simulator.cmo)
+$ (cd _build/default && /usr/bin/ocamlopt.opt -g -o netlist_simulator.exe /usr/lib/ocaml/unix.cmxa -I /usr/lib/ocaml .graph_test.eobjs/native/dune__exe.cmx .graph_test.eobjs/native/dune__exe__Graph.cmx .graph_test.eobjs/native/dune__exe__Netlist_ast.cmx .graph_test.eobjs/native/dune__exe__Netlist_parser.cmx .graph_test.eobjs/native/dune__exe__Netlist_lexer.cmx .graph_test.eobjs/native/dune__exe__Netlist_printer.cmx .graph_test.eobjs/native/dune__exe__Netlist.cmx .graph_test.eobjs/native/dune__exe__Scheduler.cmx .graph_test.eobjs/native/dune__exe__Netlist_simulator.cmx)
+$ (cd _build/default && /usr/bin/ocamlopt.opt -g -o scheduler_test.exe /usr/lib/ocaml/unix.cmxa -I /usr/lib/ocaml .graph_test.eobjs/native/dune__exe.cmx .graph_test.eobjs/native/dune__exe__Graph.cmx .graph_test.eobjs/native/dune__exe__Netlist_ast.cmx .graph_test.eobjs/native/dune__exe__Netlist_parser.cmx .graph_test.eobjs/native/dune__exe__Netlist_lexer.cmx .graph_test.eobjs/native/dune__exe__Netlist_printer.cmx .graph_test.eobjs/native/dune__exe__Netlist.cmx .graph_test.eobjs/native/dune__exe__Scheduler.cmx .graph_test.eobjs/native/dune__exe__Scheduler_test.cmx)
